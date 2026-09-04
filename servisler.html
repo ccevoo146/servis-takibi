@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servisler - CEVAT SERVİS</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .page-header {
+            margin-bottom: 18px;
+        }
+
+        .page-header h1 {
+            margin-bottom: 5px;
+        }
+
+        .page-header p {
+            color: #777;
+            margin: 0;
+        }
+
+        .filter-box {
+            background: #fff;
+            padding: 16px;
+            border-radius: 18px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        .search-input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            font-size: 15px;
+            margin-bottom: 10px;
+        }
+
+        .filter-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .filter-row select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 13px 10px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            background: white;
+            font-size: 14px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .filter-buttons button,
+        .clear-button {
+            flex: 1;
+            border: none;
+            padding: 13px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .filter-buttons button {
+            background: #111827;
+            color: white;
+        }
+
+        .clear-button {
+            background: #f1f1f1;
+            color: #333;
+        }
+
+        .result-count {
+            margin: 12px 2px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 18px;
+            padding: 17px;
+            margin-bottom: 14px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        .service-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .customer-name {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .service-type {
+            color: #666;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        .status {
+            padding: 6px 9px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            background: #eee;
+            white-space: nowrap;
+        }
+
+        .service-info {
+            margin-top: 14px;
+            display: grid;
+            gap: 8px;
+            font-size: 14px;
+        }
+
+        .service-info div {
+            display: flex;
+            gap: 7px;
+        }
+
+        .price {
+            font-size: 18px;
+            font-weight: 700;
+            margin-top: 14px;
+        }
+
+        .payment {
+            color: #666;
+            font-size: 13px;
+            margin-top: 3px;
+        }
+
+        .note {
+            background: #f7f7f7;
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 12px;
+            font-size: 13px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .actions a,
+        .actions button {
+            flex: 1;
+            padding: 11px;
+            border-radius: 10px;
+            border: none;
+            text-align: center;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .edit-button {
+            background: #eef2ff;
+            color: #3730a3;
+        }
+
+        .delete-button {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: #777;
+            background: white;
+            border-radius: 18px;
+        }
+
+        @media (max-width: 450px) {
+            .filter-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="page-header">
+        <h1>🔧 Servisler</h1>
+        <p>Tüm servis kayıtlarını yönet</p>
+    </div>
+
+    <!-- ARAMA VE FİLTRE -->
+    <div class="filter-box">
+
+        <form method="GET" action="/servisler">
+
+            <input
+                class="search-input"
+                type="text"
+                name="q"
+                value="{{ arama }}"
+                placeholder="🔎 Ad, soyad veya telefon ara..."
+            >
+
+            <div class="filter-row">
+
+                <select name="ilce">
+                    <option value="">📍 Tüm İlçeler</option>
+
+                    {% for ilce_adi in ilceler %}
+                        <option
+                            value="{{ ilce_adi }}"
+                            {% if secili_ilce == ilce_adi %}selected{% endif %}
+                        >
+                            {{ ilce_adi }}
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <select name="hizmet">
+                    <option value="">🔧 Tüm Hizmetler</option>
+
+                    {% for hizmet_adi in hizmetler %}
+                        <option
+                            value="{{ hizmet_adi }}"
+                            {% if secili_hizmet == hizmet_adi %}selected{% endif %}
+                        >
+                            {{ hizmet_adi }}
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <select name="durum">
+                    <option value="">📌 Tüm Durumlar</option>
+
+                    <option value="Bekliyor"
+                        {% if secili_durum == "Bekliyor" %}selected{% endif %}>
+                        Bekliyor
+                    </option>
+
+                    <option value="Randevu"
+                        {% if secili_durum == "Randevu" %}selected{% endif %}>
+                        Randevu
+                    </option>
+
+                    <option value="Devam Ediyor"
+                        {% if secili_durum == "Devam Ediyor" %}selected{% endif %}>
+                        Devam Ediyor
+                    </option>
+
+                    <option value="Tamamlandı"
+                        {% if secili_durum == "Tamamlandı" %}selected{% endif %}>
+                        Tamamlandı
+                    </option>
+
+                    <option value="İptal"
+                        {% if secili_durum == "İptal" %}selected{% endif %}>
+                        İptal
+                    </option>
+                </select>
+
+            </div>
+
+            <div class="filter-buttons">
+                <button type="submit">🔎 Filtrele</button>
+                <a href="/servisler" class="clear-button">✕ Temizle</a>
+            </div>
+
+        </form>
+
+    </div>
+
+    <div class="result-count">
+        <strong>{{ servisler|length }}</strong> servis bulundu
+    </div>
+
+    <!-- SERVİSLER -->
+
+    {% if servisler %}
+
+        {% for servis in servisler %}
+
+        <div class="service-card">
+
+            <div class="service-top">
+
+                <div>
+                    <div class="customer-name">
+                        {{ servis[1] }} {{ servis[2] }}
+                    </div>
+
+                    <div class="service-type">
+                        🔧 {{ servis[6] }}
+                    </div>
+                </div>
+
+                <div class="status">
+                    {{ servis[11] }}
+                </div>
+
+            </div>
+
+            <div class="service-info">
+
+                {% if servis[3] %}
+                <div>📞 {{ servis[3] }}</div>
+                {% endif %}
+
+                {% if servis[4] %}
+                <div>📍 {{ servis[4] }}</div>
+                {% endif %}
+
+                {% if servis[5] %}
+                <div>🏠 {{ servis[5] }}</div>
+                {% endif %}
+
+                {% if servis[7] %}
+                <div>📅 {{ servis[7] }}</div>
+                {% endif %}
+
+                {% if servis[8] %}
+                <div>⏰ {{ servis[8] }}</div>
+                {% endif %}
+
+            </div>
+
+            <div class="price">
+                💰 {{ "%.2f"|format(servis[9] or 0) }} ₺
+            </div>
+
+            <div class="payment">
+                Ödeme: {{ servis[10] }}
+            </div>
+
+            {% if servis[12] %}
+            <div class="note">
+                📝 {{ servis[12] }}
+            </div>
+            {% endif %}
+
+            <div class="actions">
+
+                <a
+                    href="/servis-duzenle/{{ servis[0] }}"
+                    class="edit-button"
+                >
+                    ✏️ Düzenle
+                </a>
+
+                <form
+                    method="POST"
+                    action="/servis-sil/{{ servis[0] }}"
+                    style="flex:1;"
+                    onsubmit="return confirm('Bu servisi silmek istediğine emin misin?');"
+                >
+                    <button
+                        type="submit"
+                        class="delete-button"
+                        style="width:100%;"
+                    >
+                        🗑️ Sil
+                    </button>
+                </form>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="empty">
+            <div style="font-size:45px;">🔍</div>
+            <h3>Servis bulunamadı</h3>
+            <p>Arama veya filtre kriterlerini değiştirip tekrar deneyin.</p>
+        </div>
+
+    {% endif %}
+
+</div>
+
+<!-- ALT MENÜ -->
+
+<div class="bottom-nav">
+
+    <a href="/">🏠<span>Ana Sayfa</span></a>
+
+    <a href="/servisler" class="active">🔧<span>Servisler</span></a>
+
+    <a href="/musteriler">👥<span>Müşteriler</span></a>
+
+    <a href="/raporlar">📊<span>Raporlar</span></a>
+
+</div>
+
+</body>
+</html>

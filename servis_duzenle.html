@@ -1,0 +1,297 @@
+```html
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servis Düzenle - CEVAT SERVİS</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        body {
+            background: #f4f6f8;
+        }
+
+        .edit-page {
+            max-width: 700px;
+            margin: auto;
+            padding: 20px 15px 100px;
+        }
+
+        .edit-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            font-size: 25px;
+            color: #111;
+        }
+
+        .edit-header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .edit-card {
+            background: white;
+            border-radius: 18px;
+            padding: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+        }
+
+        .edit-card h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 15px;
+            box-sizing: border-box;
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .save-btn {
+            width: 100%;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            background: #111827;
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .save-btn:hover {
+            opacity: 0.9;
+        }
+
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .edit-page {
+                padding-top: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="edit-page">
+
+    <div class="edit-header">
+        <a href="/servisler" class="back-btn">←</a>
+        <h1>Servis Düzenle</h1>
+    </div>
+
+    <div class="edit-card">
+
+        <h2>Servis Bilgileri</h2>
+
+        <form method="POST">
+
+            <div class="form-row">
+
+                <div class="form-group">
+                    <label>Ad</label>
+                    <input type="text"
+                           name="ad"
+                           value="{{ servis[1] or '' }}"
+                           required>
+                </div>
+
+                <div class="form-group">
+                    <label>Soyad</label>
+                    <input type="text"
+                           name="soyad"
+                           value="{{ servis[2] or '' }}">
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <label>Telefon</label>
+                <input type="text"
+                       name="telefon"
+                       value="{{ servis[3] or '' }}">
+            </div>
+
+            <div class="form-group">
+                <label>İlçe</label>
+                <input type="text"
+                       name="ilce"
+                       value="{{ servis[4] or '' }}">
+            </div>
+
+            <div class="form-group">
+                <label>Adres</label>
+                <textarea name="adres">{{ servis[5] or '' }}</textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Hizmet</label>
+                <select name="hizmet">
+
+                    <option value="Buzdolabı Servisi"
+                        {% if servis[6] == "Buzdolabı Servisi" %}selected{% endif %}>
+                        Buzdolabı Servisi
+                    </option>
+
+                    <option value="Klima Servisi"
+                        {% if servis[6] == "Klima Servisi" %}selected{% endif %}>
+                        Klima Servisi
+                    </option>
+
+                    <option value="Klima Montajı"
+                        {% if servis[6] == "Klima Montajı" %}selected{% endif %}>
+                        Klima Montajı
+                    </option>
+
+                    <option value="Çamaşır Makinesi Servisi"
+                        {% if servis[6] == "Çamaşır Makinesi Servisi" %}selected{% endif %}>
+                        Çamaşır Makinesi Servisi
+                    </option>
+
+                    <option value="Diğer"
+                        {% if servis[6] == "Diğer" %}selected{% endif %}>
+                        Diğer
+                    </option>
+
+                </select>
+            </div>
+
+            <div class="form-row">
+
+                <div class="form-group">
+                    <label>Tarih</label>
+                    <input type="date"
+                           name="tarih"
+                           value="{{ servis[7] or '' }}">
+                </div>
+
+                <div class="form-group">
+                    <label>Saat</label>
+                    <input type="time"
+                           name="saat"
+                           value="{{ servis[8] or '' }}">
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <label>Ücret (₺)</label>
+                <input type="number"
+                       name="ucret"
+                       step="0.01"
+                       value="{{ servis[9] or 0 }}">
+            </div>
+
+            <div class="form-group">
+                <label>Ödeme Durumu</label>
+
+                <select name="odeme">
+
+                    <option value="Bekliyor"
+                        {% if servis[10] == "Bekliyor" %}selected{% endif %}>
+                        Bekliyor
+                    </option>
+
+                    <option value="Ödendi"
+                        {% if servis[10] == "Ödendi" %}selected{% endif %}>
+                        Ödendi
+                    </option>
+
+                    <option value="Kısmi Ödeme"
+                        {% if servis[10] == "Kısmi Ödeme" %}selected{% endif %}>
+                        Kısmi Ödeme
+                    </option>
+
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Servis Durumu</label>
+
+                <select name="durum">
+
+                    <option value="Bekliyor"
+                        {% if servis[11] == "Bekliyor" %}selected{% endif %}>
+                        Bekliyor
+                    </option>
+
+                    <option value="Randevu"
+                        {% if servis[11] == "Randevu" %}selected{% endif %}>
+                        Randevu
+                    </option>
+
+                    <option value="Devam Ediyor"
+                        {% if servis[11] == "Devam Ediyor" %}selected{% endif %}>
+                        Devam Ediyor
+                    </option>
+
+                    <option value="Tamamlandı"
+                        {% if servis[11] == "Tamamlandı" %}selected{% endif %}>
+                        Tamamlandı
+                    </option>
+
+                    <option value="İptal"
+                        {% if servis[11] == "İptal" %}selected{% endif %}>
+                        İptal
+                    </option>
+
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Açıklama</label>
+                <textarea name="aciklama">{{ servis[12] or '' }}</textarea>
+            </div>
+
+            <button type="submit" class="save-btn">
+                💾 Değişiklikleri Kaydet
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+</body>
+</html>
+```

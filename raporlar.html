@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Raporlar - CEVAT SERVİS</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+
+        .page-header {
+            margin-bottom: 20px;
+        }
+
+        .page-header h1 {
+            margin-bottom: 5px;
+        }
+
+        .page-header p {
+            margin: 0;
+            color: #777;
+        }
+
+        .section-title {
+            font-size: 17px;
+            font-weight: 700;
+            margin: 22px 2px 12px;
+        }
+
+        .finance-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .finance-card {
+            background: white;
+            border-radius: 18px;
+            padding: 18px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        .finance-icon {
+            font-size: 25px;
+            margin-bottom: 10px;
+        }
+
+        .finance-label {
+            color: #777;
+            font-size: 13px;
+            margin-bottom: 5px;
+        }
+
+        .finance-value {
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+        .income {
+            border-left: 4px solid #16a34a;
+        }
+
+        .expense {
+            border-left: 4px solid #dc2626;
+        }
+
+        .profit {
+            border-left: 4px solid #2563eb;
+            grid-column: 1 / -1;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 18px;
+            border-radius: 18px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #777;
+            font-size: 13px;
+        }
+
+        .progress-card {
+            background: white;
+            border-radius: 18px;
+            padding: 18px;
+            margin-top: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #eee;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #111827;
+            border-radius: 20px;
+        }
+
+        .summary {
+            background: #111827;
+            color: white;
+            padding: 20px;
+            border-radius: 18px;
+            margin-top: 20px;
+            margin-bottom: 90px;
+        }
+
+        .summary-title {
+            font-size: 15px;
+            opacity: .8;
+            margin-bottom: 8px;
+        }
+
+        .summary-value {
+            font-size: 27px;
+            font-weight: 800;
+        }
+
+        .summary-text {
+            margin-top: 7px;
+            font-size: 13px;
+            opacity: .75;
+        }
+
+        @media (max-width: 380px) {
+
+            .finance-grid,
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profit {
+                grid-column: auto;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="page-header">
+        <h1>📊 Raporlar</h1>
+        <p>İşletmenin genel durumunu görüntüle</p>
+    </div>
+
+
+    <!-- FİNANS -->
+
+    <div class="section-title">
+        💰 Finansal Durum
+    </div>
+
+    <div class="finance-grid">
+
+        <div class="finance-card income">
+
+            <div class="finance-icon">
+                💵
+            </div>
+
+            <div class="finance-label">
+                Toplam Gelir
+            </div>
+
+            <div class="finance-value">
+                {{ "%.2f"|format(toplam_gelir or 0) }} ₺
+            </div>
+
+        </div>
+
+
+        <div class="finance-card expense">
+
+            <div class="finance-icon">
+                💸
+            </div>
+
+            <div class="finance-label">
+                Toplam Gider
+            </div>
+
+            <div class="finance-value">
+                {{ "%.2f"|format(toplam_gider or 0) }} ₺
+            </div>
+
+        </div>
+
+
+        <div class="finance-card profit">
+
+            <div class="finance-icon">
+                📈
+            </div>
+
+            <div class="finance-label">
+                Net Kazanç
+            </div>
+
+            <div class="finance-value">
+                {{ "%.2f"|format(net or 0) }} ₺
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SERVİSLER -->
+
+    <div class="section-title">
+        🔧 Servis İstatistikleri
+    </div>
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+
+            <div class="stat-number">
+                {{ toplam_servis }}
+            </div>
+
+            <div class="stat-label">
+                Toplam Servis
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-number">
+                {{ tamamlanan_servis }}
+            </div>
+
+            <div class="stat-label">
+                Tamamlanan
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-number">
+                {{ bekleyen_servis }}
+            </div>
+
+            <div class="stat-label">
+                Bekleyen
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-number">
+                {% if toplam_servis > 0 %}
+                    {{ ((tamamlanan_servis / toplam_servis) * 100)|round|int }}%
+                {% else %}
+                    0%
+                {% endif %}
+            </div>
+
+            <div class="stat-label">
+                Tamamlanma Oranı
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- İLERLEME -->
+
+    <div class="progress-card">
+
+        <div class="progress-header">
+
+            <strong>
+                Servis Tamamlanma
+            </strong>
+
+            <span>
+                {% if toplam_servis > 0 %}
+                    {{ ((tamamlanan_servis / toplam_servis) * 100)|round|int }}%
+                {% else %}
+                    0%
+                {% endif %}
+            </span>
+
+        </div>
+
+        <div class="progress-bar">
+
+            <div
+                class="progress-fill"
+                style="width:
+                {% if toplam_servis > 0 %}
+                    {{ (tamamlanan_servis / toplam_servis) * 100 }}%
+                {% else %}
+                    0%
+                {% endif %};
+                ">
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ÖZET -->
+
+    <div class="summary">
+
+        <div class="summary-title">
+            📌 Genel Özet
+        </div>
+
+        <div class="summary-value">
+            {{ "%.2f"|format(net or 0) }} ₺
+        </div>
+
+        <div class="summary-text">
+            Toplam gelirlerden toplam giderler çıkarıldıktan
+            sonraki net kazanç.
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ALT MENÜ -->
+
+<div class="bottom-nav">
+
+    <a href="/">
+        🏠
+        <span>Ana Sayfa</span>
+    </a>
+
+    <a href="/servisler">
+        🔧
+        <span>Servisler</span>
+    </a>
+
+    <a href="/musteriler">
+        👥
+        <span>Müşteriler</span>
+    </a>
+
+    <a href="/raporlar" class="active">
+        📊
+        <span>Raporlar</span>
+    </a>
+
+</div>
+
+</body>
+</html>

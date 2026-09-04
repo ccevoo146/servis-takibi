@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Müşteri Detayı - CEVAT SERVİS</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        body {
+            margin: 0;
+            padding-bottom: 90px;
+        }
+
+        .detail-page {
+            padding: 20px 16px;
+            max-width: 700px;
+            margin: auto;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            color: #555;
+            font-weight: 600;
+            margin-bottom: 18px;
+        }
+
+        .customer-header {
+            background: #111;
+            color: white;
+            border-radius: 20px;
+            padding: 22px;
+            margin-bottom: 18px;
+        }
+
+        .customer-header h1 {
+            margin: 0 0 12px;
+            font-size: 25px;
+        }
+
+        .customer-info {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            color: #ddd;
+            font-size: 14px;
+        }
+
+        .phone-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 22px;
+        }
+
+        .stat-box {
+            background: white;
+            border-radius: 16px;
+            padding: 18px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+        }
+
+        .stat-box small {
+            color: #777;
+            display: block;
+            margin-bottom: 7px;
+        }
+
+        .stat-box strong {
+            font-size: 21px;
+        }
+
+        .section-title {
+            font-size: 19px;
+            margin: 0 0 12px;
+        }
+
+        .history-card {
+            background: white;
+            border-radius: 18px;
+            padding: 18px;
+            margin-bottom: 14px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+        }
+
+        .history-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .history-top h3 {
+            margin: 0;
+            font-size: 17px;
+        }
+
+        .status {
+            font-size: 12px;
+            padding: 6px 9px;
+            border-radius: 20px;
+            background: #eee;
+            white-space: nowrap;
+        }
+
+        .history-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 9px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .history-info div {
+            background: #f7f7f7;
+            padding: 9px;
+            border-radius: 10px;
+        }
+
+        .price {
+            font-size: 18px;
+            font-weight: 700;
+            margin-top: 13px;
+        }
+
+        .note {
+            margin-top: 12px;
+            padding: 11px;
+            background: #f7f7f7;
+            border-radius: 10px;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-top: 1px solid #ddd;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 5px;
+            z-index: 1000;
+        }
+
+        .bottom-nav a {
+            text-decoration: none;
+            color: #666;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .bottom-nav a.active {
+            color: #111;
+            font-weight: 700;
+        }
+
+        @media (min-width: 700px) {
+            .detail-page {
+                padding-top: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="detail-page">
+
+    <a href="/musteriler" class="back-btn">
+        ← Müşterilere Dön
+    </a>
+
+    <div class="customer-header">
+
+        <h1>
+            {{ musteri[0] }} {{ musteri[1] }}
+        </h1>
+
+        <div class="customer-info">
+
+            <div>
+                📞
+                <a href="tel:{{ musteri[2] }}" class="phone-link">
+                    {{ musteri[2] }}
+                </a>
+            </div>
+
+            {% if musteri[3] %}
+            <div>📍 {{ musteri[3] }}</div>
+            {% endif %}
+
+            {% if musteri[4] %}
+            <div>🏠 {{ musteri[4] }}</div>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <div class="stats">
+
+        <div class="stat-box">
+            <small>Toplam Servis</small>
+            <strong>{{ servisler|length }}</strong>
+        </div>
+
+        <div class="stat-box">
+            <small>Toplam Tutar</small>
+
+            <strong>
+                {% set toplam = namespace(deger=0) %}
+
+                {% for servis in servisler %}
+                    {% set toplam.deger = toplam.deger + (servis[8] or 0) %}
+                {% endfor %}
+
+                {{ "%.2f"|format(toplam.deger) }} ₺
+            </strong>
+        </div>
+
+    </div>
+
+
+    <h2 class="section-title">
+        Servis Geçmişi
+    </h2>
+
+
+    {% for servis in servisler %}
+
+    <div class="history-card">
+
+        <div class="history-top">
+
+            <h3>
+                {{ servis[5] or "Servis" }}
+            </h3>
+
+            <span class="status">
+                {{ servis[10] or "Bekliyor" }}
+            </span>
+
+        </div>
+
+
+        <div class="history-info">
+
+            <div>
+                📅 {{ servis[6] or "-" }}
+            </div>
+
+            <div>
+                🕐 {{ servis[7] or "-" }}
+            </div>
+
+            <div>
+                💳 {{ servis[9] or "Bekliyor" }}
+            </div>
+
+            <div>
+                📍 {{ musteri[3] or "-" }}
+            </div>
+
+        </div>
+
+
+        <div class="price">
+            {{ "%.2f"|format(servis[8] or 0) }} ₺
+        </div>
+
+
+        {% if servis[11] %}
+        <div class="note">
+            📝 {{ servis[11] }}
+        </div>
+        {% endif %}
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+
+<div class="bottom-nav">
+
+    <a href="/">
+        🏠<br>
+        Ana Sayfa
+    </a>
+
+    <a href="/servisler">
+        🔧<br>
+        Servisler
+    </a>
+
+    <a href="/musteriler" class="active">
+        👥<br>
+        Müşteriler
+    </a>
+
+    <a href="/raporlar">
+        📊<br>
+        Raporlar
+    </a>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CEVAT SERVİS TAKİBİ</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #172033;
+            padding-bottom: 90px;
+        }
+
+        .header {
+            background: #101a33;
+            color: white;
+            padding: 24px 18px;
+            border-radius: 0 0 25px 25px;
+        }
+
+        .header small {
+            opacity: .7;
+            letter-spacing: 1px;
+        }
+
+        .header h1 {
+            margin-top: 6px;
+            font-size: 24px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 18px;
+        }
+
+        .welcome {
+            margin-bottom: 18px;
+        }
+
+        .welcome h2 {
+            font-size: 21px;
+        }
+
+        .welcome p {
+            color: #667085;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .stat {
+            background: white;
+            padding: 17px;
+            border-radius: 18px;
+            box-shadow: 0 5px 18px #00000008;
+        }
+
+        .stat span {
+            display: block;
+            color: #667085;
+            font-size: 13px;
+        }
+
+        .stat strong {
+            display: block;
+            margin-top: 8px;
+            font-size: 21px;
+        }
+
+        .green {
+            color: #19a463;
+        }
+
+        .red {
+            color: #d9363e;
+        }
+
+        .blue {
+            color: #1769ff;
+        }
+
+        .net {
+            background: linear-gradient(135deg, #1769ff, #0d47c7);
+            color: white;
+        }
+
+        .net span {
+            color: white;
+            opacity: .8;
+        }
+
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 22px 0 12px;
+        }
+
+        .section-title h3 {
+            font-size: 19px;
+        }
+
+        .add-button {
+            background: #1769ff;
+            color: white;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .form-box {
+            background: white;
+            padding: 18px;
+            border-radius: 20px;
+            box-shadow: 0 5px 18px #00000008;
+            margin-bottom: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            color: #667085;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #dfe4ec;
+            border-radius: 11px;
+            font-size: 14px;
+            outline: none;
+            background: #fff;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #1769ff;
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .submit {
+            width: 100%;
+            margin-top: 15px;
+            padding: 14px;
+            border: none;
+            border-radius: 13px;
+            background: #1769ff;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .submit:hover {
+            opacity: .9;
+        }
+
+        .service {
+            background: white;
+            padding: 17px;
+            border-radius: 18px;
+            margin-bottom: 12px;
+            box-shadow: 0 5px 18px #00000008;
+        }
+
+        .service-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .service-name {
+            font-size: 17px;
+            font-weight: bold;
+        }
+
+        .service-type {
+            color: #667085;
+            margin-top: 4px;
+            font-size: 13px;
+        }
+
+        .status {
+            background: #fff3cd;
+            color: #856404;
+            padding: 6px 9px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .service-info {
+            margin-top: 13px;
+            color: #667085;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .price {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #edf0f5;
+            font-size: 18px;
+            color: #19a463;
+            font-weight: bold;
+        }
+
+        .empty {
+            background: white;
+            padding: 28px;
+            border-radius: 18px;
+            text-align: center;
+            color: #777;
+        }
+
+        .bottom {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 13px 5px;
+            box-shadow: 0 -5px 20px #00000010;
+            z-index: 100;
+        }
+
+        .bottom a {
+            text-decoration: none;
+            text-align: center;
+            font-size: 12px;
+            color: #70798a;
+        }
+
+        .bottom b {
+            display: block;
+            font-size: 20px;
+            margin-bottom: 3px;
+        }
+
+        @media (max-width: 450px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+        }
+
+        @media (min-width: 700px) {
+            .container {
+                max-width: 800px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    <small>CEVAT SERVİS</small>
+    <h1>Servis Takip Sistemi</h1>
+</div>
+
+<div class="container">
+
+    <div class="welcome">
+        <h2>👋 Hoş Geldin</h2>
+        <p>Bugünkü servis ve finans durumun</p>
+    </div>
+
+    <div class="stats">
+
+        <div class="stat">
+            <span>💰 Bugünkü Gelir</span>
+            <strong class="green">
+                {{ "%.2f"|format(gelir) }} ₺
+            </strong>
+        </div>
+
+        <div class="stat">
+            <span>💸 Bugünkü Gider</span>
+            <strong class="red">
+                {{ "%.2f"|format(gider) }} ₺
+            </strong>
+        </div>
+
+        <div class="stat net">
+            <span>📈 Bugünkü Net</span>
+            <strong>
+                {{ "%.2f"|format(net) }} ₺
+            </strong>
+        </div>
+
+        <div class="stat">
+            <span>🔧 Bugünkü Servis</span>
+            <strong class="blue">
+                {{ servis_sayisi }}
+            </strong>
+        </div>
+
+    </div>
+
+
+    <div class="section-title">
+        <h3>➕ Yeni Servis</h3>
+    </div>
+
+    <div class="form-box">
+
+        <form action="/servis-ekle" method="POST">
+
+            <div class="form-grid">
+
+                <div>
+                    <label>Ad</label>
+                    <input type="text" name="ad" placeholder="Müşteri adı" required>
+                </div>
+
+                <div>
+                    <label>Soyad</label>
+                    <input type="text" name="soyad" placeholder="Soyad">
+                </div>
+
+                <div>
+                    <label>Telefon</label>
+                    <input type="tel" name="telefon" placeholder="05XX XXX XX XX">
+                </div>
+
+                <div>
+                    <label>İlçe</label>
+                    <input type="text" name="ilce" placeholder="Örn. Küçükçekmece">
+                </div>
+
+                <div class="full">
+                    <label>Adres</label>
+                    <input type="text" name="adres" placeholder="Müşterinin adresi">
+                </div>
+
+                <div class="full">
+                    <label>Hizmet</label>
+
+                    <select name="hizmet">
+                        <option value="">Hizmet seç</option>
+                        <option value="Buzdolabı Servisi">Buzdolabı Servisi</option>
+                        <option value="Klima Servisi">Klima Servisi</option>
+                        <option value="Klima Montajı">Klima Montajı</option>
+                        <option value="Çamaşır Makinesi Servisi">Çamaşır Makinesi Servisi</option>
+                        <option value="Diğer">Diğer</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Tarih</label>
+                    <input type="date" name="tarih">
+                </div>
+
+                <div>
+                    <label>Saat</label>
+                    <input type="time" name="saat">
+                </div>
+
+                <div>
+                    <label>Ücret</label>
+                    <input type="number" step="0.01" name="ucret" placeholder="0">
+                </div>
+
+                <div>
+                    <label>Ödeme</label>
+
+                    <select name="odeme">
+                        <option value="Bekliyor">Bekliyor</option>
+                        <option value="Ödendi">Ödendi</option>
+                        <option value="Kısmi Ödeme">Kısmi Ödeme</option>
+                    </select>
+                </div>
+
+                <div class="full">
+                    <label>Servis Durumu</label>
+
+                    <select name="durum">
+                        <option value="Bekliyor">Bekliyor</option>
+                        <option value="Randevu">Randevu</option>
+                        <option value="Devam Ediyor">Devam Ediyor</option>
+                        <option value="Tamamlandı">Tamamlandı</option>
+                        <option value="İptal">İptal</option>
+                    </select>
+                </div>
+
+                <div class="full">
+                    <label>Açıklama</label>
+
+                    <textarea
+                        name="aciklama"
+                        placeholder="Arıza, yapılan işlem veya diğer notlar..."
+                    ></textarea>
+                </div>
+
+            </div>
+
+            <button class="submit" type="submit">
+                💾 Servisi Kaydet
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <div class="section-title">
+        <h3>🔧 Son Servisler</h3>
+
+        <a href="/servisler"
+           style="color:#1769ff;text-decoration:none;font-size:13px;">
+            Tümünü Gör →
+        </a>
+    </div>
+
+
+    {% if servisler %}
+
+        {% for servis in servisler %}
+
+        <div class="service">
+
+            <div class="service-top">
+
+                <div>
+                    <div class="service-name">
+                        {{ servis[1] }} {{ servis[2] or "" }}
+                    </div>
+
+                    <div class="service-type">
+                        {{ servis[5] or "Hizmet belirtilmemiş" }}
+                    </div>
+                </div>
+
+                <div class="status">
+                    {{ servis[10] }}
+                </div>
+
+            </div>
+
+            <div class="service-info">
+
+                📞 {{ servis[3] or "-" }}<br>
+
+                📍 {{ servis[4] or "-" }}<br>
+
+                📅 {{ servis[6] or "-" }}
+
+                {% if servis[7] %}
+                    &nbsp; 🕐 {{ servis[7] }}
+                {% endif %}
+
+                <br>
+
+                💳 {{ servis[9] or "Bekliyor" }}
+
+            </div>
+
+            <div class="price">
+                {{ "%.2f"|format(servis[8] or 0) }} ₺
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="empty">
+            <div style="font-size:40px;">🔧</div>
+
+            <h3 style="margin:10px 0;">
+                Henüz servis yok
+            </h3>
+
+            <p>
+                Yukarıdaki formdan ilk servisini ekleyebilirsin.
+            </p>
+        </div>
+
+    {% endif %}
+
+</div>
+
+
+<div class="bottom">
+
+    <a href="/finans">
+    💰
+    <span>Finans</span>
+    </a>
+
+    <a href="/">
+        <b>⌂</b>
+        Ana Sayfa
+    </a>
+
+    <a href="/servisler">
+        <b>🔧</b>
+        Servisler
+    </a>
+
+    <a href="/musteriler">
+        <b>👥</b>
+        Müşteriler
+    </a>
+
+    <a href="/raporlar">
+        <b>📊</b>
+        Raporlar
+    </a>
+
+</div>
+
+</body>
+</html>

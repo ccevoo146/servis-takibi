@@ -1,0 +1,602 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --dark: #101828;
+    --dark2: #182335;
+    --blue: #2563eb;
+    --blue-light: #eff6ff;
+    --green: #16a34a;
+    --red: #dc2626;
+    --text: #172033;
+    --muted: #667085;
+    --background: #f5f7fb;
+    --white: #ffffff;
+    --border: #e8ecf2;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    background: var(--background);
+    color: var(--text);
+}
+
+button {
+    font-family: inherit;
+    border: none;
+    cursor: pointer;
+}
+
+.app {
+    max-width: 480px;
+    min-height: 100vh;
+    margin: auto;
+    background: var(--background);
+    padding-bottom: 90px;
+}
+
+
+/* =========================
+   ÜST HEADER
+========================= */
+
+.top-header {
+    background: linear-gradient(135deg, #101828, #1d2939);
+    color: white;
+    padding: 24px 20px 28px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border-radius: 0 0 24px 24px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-icon {
+    width: 46px;
+    height: 46px;
+
+    background: rgba(255,255,255,0.12);
+
+    border: 1px solid rgba(255,255,255,0.15);
+
+    border-radius: 14px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 22px;
+}
+
+.brand h1 {
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: .5px;
+}
+
+.brand span {
+    display: block;
+
+    font-size: 9px;
+    letter-spacing: 1.5px;
+
+    color: #98a2b3;
+
+    margin-top: 3px;
+}
+
+.notification {
+    width: 42px;
+    height: 42px;
+
+    border-radius: 13px;
+
+    background: rgba(255,255,255,.1);
+
+    color: white;
+
+    font-size: 18px;
+
+    position: relative;
+}
+
+.notification span {
+    position: absolute;
+
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #ef4444;
+
+    top: 8px;
+    right: 8px;
+
+    border: 2px solid #182335;
+}
+
+
+/* =========================
+   ANA İÇERİK
+========================= */
+
+main {
+    padding: 20px 16px;
+}
+
+.welcome {
+    margin-bottom: 18px;
+}
+
+.welcome p:first-child {
+    color: var(--muted);
+    font-size: 12px;
+    text-transform: capitalize;
+}
+
+.welcome h2 {
+    font-size: 23px;
+    margin-top: 4px;
+    font-weight: 800;
+}
+
+.welcome-text {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 5px;
+}
+
+
+/* =========================
+   KÂR KARTI
+========================= */
+
+.profit-card {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+
+    color: white;
+
+    border-radius: 22px;
+
+    padding: 22px;
+
+    box-shadow: 0 12px 30px rgba(37,99,235,.20);
+
+    margin-bottom: 16px;
+}
+
+.profit-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profit-top span {
+    font-size: 10px;
+    letter-spacing: 1px;
+    opacity: .8;
+}
+
+.profit-top h3 {
+    font-size: 31px;
+    margin-top: 5px;
+}
+
+.profit-icon {
+    width: 50px;
+    height: 50px;
+
+    background: rgba(255,255,255,.14);
+
+    border-radius: 16px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 23px;
+    font-weight: 700;
+}
+
+.profit-bottom {
+    margin-top: 20px;
+    padding-top: 15px;
+
+    border-top: 1px solid rgba(255,255,255,.18);
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    font-size: 12px;
+}
+
+.profit-bottom span {
+    opacity: .75;
+}
+
+.profit-bottom strong {
+    font-size: 13px;
+}
+
+.profit-bottom strong:first-of-type {
+    margin-right: auto;
+}
+
+
+/* =========================
+   İSTATİSTİKLER
+========================= */
+
+.stats {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 12px;
+
+    margin-bottom: 25px;
+}
+
+.stat-card {
+    background: white;
+
+    border: 1px solid var(--border);
+
+    border-radius: 18px;
+
+    padding: 15px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 11px;
+
+    box-shadow: 0 3px 10px rgba(16,24,40,.03);
+}
+
+.stat-icon {
+    width: 39px;
+    height: 39px;
+
+    border-radius: 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.stat-icon.income {
+    background: #ecfdf3;
+    color: var(--green);
+}
+
+.stat-icon.expense {
+    background: #fef2f2;
+    color: var(--red);
+}
+
+.stat-icon.service {
+    background: #eff6ff;
+    color: var(--blue);
+}
+
+.stat-icon.customer {
+    background: #f5f3ff;
+}
+
+.stat-card span {
+    display: block;
+
+    font-size: 10px;
+
+    color: var(--muted);
+
+    margin-bottom: 3px;
+}
+
+.stat-card strong {
+    font-size: 16px;
+}
+
+
+/* =========================
+   BÖLÜM BAŞLIKLARI
+========================= */
+
+.section-title {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 13px;
+}
+
+.section-title h2 {
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.section-title span {
+    display: block;
+
+    font-size: 11px;
+
+    color: var(--muted);
+
+    margin-top: 3px;
+}
+
+.view-all {
+    background: none;
+
+    color: var(--blue);
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+
+/* =========================
+   HIZLI İŞLEMLER
+========================= */
+
+.quick-actions {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 10px;
+
+    margin-bottom: 28px;
+}
+
+.quick-btn {
+    background: white;
+
+    border: 1px solid var(--border);
+
+    border-radius: 17px;
+
+    padding: 15px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    color: var(--text);
+
+    font-weight: 600;
+
+    text-align: left;
+
+    box-shadow: 0 3px 10px rgba(16,24,40,.03);
+
+    transition: .2s;
+}
+
+.quick-btn:hover {
+    transform: translateY(-2px);
+}
+
+.quick-btn div {
+    width: 36px;
+    height: 36px;
+
+    background: var(--blue-light);
+
+    color: var(--blue);
+
+    border-radius: 11px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 17px;
+}
+
+.quick-btn span {
+    font-size: 12px;
+}
+
+.quick-btn.primary {
+    background: var(--dark);
+
+    color: white;
+
+    border-color: var(--dark);
+}
+
+.quick-btn.primary div {
+    background: var(--blue);
+    color: white;
+}
+
+
+/* =========================
+   BUGÜNKÜ PROGRAM
+========================= */
+
+.today-section {
+    margin-bottom: 20px;
+}
+
+.empty-state {
+    background: white;
+
+    border: 1px dashed #d0d5dd;
+
+    border-radius: 20px;
+
+    padding: 30px 20px;
+
+    text-align: center;
+}
+
+.empty-icon {
+    width: 58px;
+    height: 58px;
+
+    background: var(--blue-light);
+
+    border-radius: 17px;
+
+    margin: auto;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 25px;
+
+    margin-bottom: 12px;
+}
+
+.empty-state h3 {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.empty-state p {
+    color: var(--muted);
+
+    font-size: 11px;
+
+    margin-bottom: 17px;
+}
+
+.add-service {
+    background: var(--blue);
+
+    color: white;
+
+    padding: 11px 17px;
+
+    border-radius: 11px;
+
+    font-size: 11px;
+
+    font-weight: 700;
+}
+
+
+/* =========================
+   ALT MENÜ
+========================= */
+
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: min(480px, 100%);
+
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(15px);
+
+    border-top: 1px solid var(--border);
+
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+
+    padding: 8px 5px 10px;
+
+    z-index: 100;
+}
+
+.nav-item {
+    text-decoration: none;
+
+    color: #98a2b3;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 3px;
+
+    font-size: 10px;
+    font-weight: 600;
+
+    min-width: 0;
+}
+
+.nav-item div {
+    font-size: 19px;
+    line-height: 22px;
+
+    margin: 0;
+}
+
+.nav-item span {
+    font-size: 9px;
+    line-height: 12px;
+
+    white-space: nowrap;
+}
+
+.nav-item.active {
+    color: var(--blue);
+}
+
+.nav-item.active div {
+    font-size: 20px;
+}
+/* =========================
+   BÜYÜK EKRAN
+========================= */
+
+@media (min-width: 700px) {
+
+    body {
+        padding: 30px 0;
+    }
+
+    .app {
+        border-radius: 25px;
+
+        overflow: hidden;
+
+        box-shadow: 0 20px 60px rgba(16,24,40,.12);
+    }
+
+    .top-header {
+        border-radius: 0;
+    }
+
+    .bottom-nav {
+        position: fixed;
+
+        bottom: 30px;
+
+        border-radius: 20px;
+
+        width: 480px;
+
+        box-shadow: 0 10px 30px rgba(16,24,40,.12);
+    }
+}
+
